@@ -13,13 +13,18 @@
  <sql:setDataSource url="${url}" driver="${drv}" 
  user="${usr}" password="${pwd}" var="mariadb" />
  
-<sql:query var="rs" dataSource="${mariadb}">
-	select userid from board
-	where userid =?
-	<sql:param value="${sessionScope.userid}"/>
-</sql:query>
+ <sql:update dataSource = "${mariadb}" var="cnt">
+ 	insert into board (title, userid, contents)
+ 	values (?,?,?)
+ 	<sql:param value="${param.title}"/>
+ 	<sql:param value="${param.userid}"/>
+ 	<sql:param value="${param.contents}"/>
+ </sql:update>
+ 
+<c:if test="${ cnt gt 0 }">
+	<c:redirect url="/board/list.jsp" />
+</c:if>
 
-<c:forEach var="row" items="${rs.rows}">
-	<c:set var="userid" value="${row.userid}"/>
-</c:forEach>
-
+<c:if test="${ cnt eq 0 }">
+	<script>history.go(-1);</script>
+</c:if>

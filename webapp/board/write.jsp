@@ -59,7 +59,7 @@
     			</div>
     			<div>
     				<label class="dragup">본문</label>
-    				<textarea id="contents" ></textarea>
+    				<textarea id="contents" name="contents"></textarea>
     			</div>
     			<div><label></label>
     				<button type="button" id="writebtn">입력완료</button>
@@ -69,5 +69,22 @@
         </div>
        		<%@ include file="/layout/footer.jsp" %>
         </div>
+        
+		<script>
+		var writebtn = document.getElementById('writebtn');
+        writebtn.addEventListener('click', checkwritefrm);
+        
+        function checkwritefrm() {
+        	var frm = document.getElementById('boardfrm');
+        	if (frm.title.value == '')
+        		alert('제목을 입력하세요!');
+        	else if (frm.contents.value == '')
+        		alert('본문을 입력하세요!')
+        	else {
+        		frm.action ='writeok.jsp';
+        		frm.submit();
+        	}
+        }
+		</script>
     </body>
 </html>
